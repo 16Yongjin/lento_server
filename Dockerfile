@@ -6,4 +6,5 @@ COPY package.json /usr/src/lento/
 RUN npm install
 COPY . /usr/src/lento
 EXPOSE 3000
+
 CMD [ “npm”, “start” ]
