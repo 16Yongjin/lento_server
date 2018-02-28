@@ -1,54 +1,29 @@
 const router = require('koa-router')()
-const controller = require('./controller')
-const { saveImages, deleteImageFile } = require('helpers')
+const controller = require('api/foods/controller')
+
+// search name
+router.get('/search', controller.search)
 
 // read items
-router.get('/', async ctx => {
-  ctx.body = await controller.read()
-})
+router.get('/', controller.readAll)
 
-// read items
-router.get('/:id', async ctx => {
-  const id = ctx.params.id  
-  ctx.body = await controller.read(id)
-})
+// read item
+router.get('/:id', controller.read)
 
 // create item
-router.post('/', async ctx => {
-  const { files, data } = ctx.request.body
-  if (files)
-    data.images = await saveImages(files) 
-  ctx.body = controller.create(data)
-})
+router.post('/', controller.create)
 
 // update item
-router.post('/:id', async ctx => {
-  const id = ctx.params.id
-  const { data = {} } = ctx.request.body
-  ctx.body = await controller.update(id, data)
-})
+router.post('/:id', controller.update)
 
 // update images
-router.post('/images/:id', async ctx => {
-  const id = ctx.params.id
-  const files = ctx.request.body.files
-  const imagePaths = await saveImages(files)
-  ctx.body = await controller.updateImages(id, imagePaths)
-})
+router.post('/images/:id', controller.updateImage)
 
 // delete item
-router.delete('/:id', async ctx => {
-  const id = ctx.params.id
-  ctx.body = await controller.delete(id)
-})
+router.delete('/:id', controller.delete)
 
 // delete image
-router.delete('/images/:id', async ctx => {
-  const id = ctx.params.id
-  const image = ctx.query.image
-  console.log(id, image)
-  await deleteImageFile(image)
-  ctx.body = await controller.deleteImage(id, image)
-})
+router.delete('/images/:id', controller.deleteImage)
+
 
 module.exports = router.routes()

@@ -41,8 +41,8 @@ const keyboard = {
 }
 
 const getCafeteriaMessage = async (content) => {
-  const message = await getCafeteriaMenu(content)
-  return { message, keyboard }
+  const text = await getCafeteriaMenu(content)
+  return { message: { text }, keyboard }
 }
 
 

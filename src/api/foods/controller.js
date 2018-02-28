@@ -1,36 +1,60 @@
-const Food = require('./model')
+const Food = require('api/foods/model')
+const { adminGuard, saveImages, deleteImageFile } = require('helpers')
 
-module.exports = {
-  read (id) {
-    if (id) 
-      return Food.findById(id)
-    else
-      return Food.find()
+const controller = {
+  async readAll (ctx) {
+    // GET /foods/
+    console.log('readAll')
+    
+    ctx.body = await Food.read()
   },
-  create (data) {
-    return Food.create(data)
+  async read (ctx) {
+    // GET /foods/:id
+    console.log(ctx.state.user)
+    const id = ctx.params.id  
+    ctx.body = await Food.read(id)
   },
-  async update (id, data) {
-    await Food.findByIdAndUpdate(id, data)
-    return Food.findById(id)
+  async create (ctx) {
+    // POST /foods/
+    const { files, data } = ctx.request.body
+    if (files)
+      data.images = await saveImages(files) 
+    ctx.body = Food.create(data)
   },
-  async updateImages (id, imagePaths) {
-    await Food.findByIdAndUpdate(id, { 
-      $push: { images: { $each: imagePaths } }
-    })
-    return Food.findById(id)
+  async update (ctx) {
+    // POST /foods/:id
+    const id = ctx.params.id
+    const { data = {} } = ctx.request.body
+    ctx.body = await Food.update(id, data)
   },
-  delete (id) {
-    return Food.findByIdAndRemove(id)
+  async updateImage (ctx) {
+    // POST /foods/images/:id
+    const id = ctx.params.id
+    const files = ctx.request.body.files
+    const images = await saveImages(files)
+    ctx.body = await Food.updateImages(id, images)
   },
-  async deleteImage (id, imagesPath) {
-    await Food.findByIdAndUpdate(id, { 
-      $pull: { images: imagesPath }
-    })
-    return Food.findById(id)
+  async delete (ctx) {
+    // DELETE /foods/:id
+    const id = ctx.params.id
+    ctx.body = await Food.delete(id)
   },
-  random () {
-    return Food.aggregate().sample(1).exec().then(r => r[0])
+  async deleteImage (ctx) {
+    // DELETE /foods/images/:id
+    const id = ctx.params.id
+    const image = ctx.query.image
+    console.log(id, image)
+    await deleteImageFile(image)
+    ctx.body = await Food.deleteImage(id, image)
+  },
+  async search (ctx) {
+    const query = ctx.query.q
+    const type = ctx.query.type
+    if (query.length < 2) 
+      return ctx.body = { error: '두 글자 이상 입력해주세요' }
+    ctx.body = await Food.search(query, type)
+
   }
 }
 
+module.exports = adminGuard(controller)

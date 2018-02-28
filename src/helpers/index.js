@@ -35,3 +35,17 @@ exports.saveImages = async ({ image }) => {
     console.log('failed to save images', e)
   }
 }
+
+const isAdmin = mw => ctx => {
+  if (!ctx.state.user.admin)
+    return ctx.status = 401
+  return mw(ctx)
+}
+
+const check = cont => condition => {
+  for (let k in cont)
+    cont[k] = condition(cont[k])
+  return cont
+}
+
+exports.adminGuard = controller => check(controller)(isAdmin)

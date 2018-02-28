@@ -34,7 +34,7 @@ const longToShort = async (longUrl) => {
 }
 
 const getLongUrl = (lat, lng) => {
-  return `https://www.google.co.kr/maps/place/${lat},${lng}/@18z`
+  return `https://www.google.com/maps/place/${lat},${lng}/@${lat},${lng},18z`
 }
 
 const getMapUrl = (lat, lng) => longToShort(getLongUrl(lat, lng))

@@ -1,0 +1,170 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters"
+  version: 1.0.0
+  title: Lento API
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "yongjin0802@gmail.com"
+  license:
+    name: Apache 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+basePath: /v2
+tags:
+  - name: foods
+    description: HUFS Restaurants
+  - name: public
+    description: Exposed to public
+  - name: auth
+    description: For sign in and up
+  - name: users
+    description: User informations
+  - name: kakao
+    description: For kakaotalk plus friend bot
+schemes:
+  - http
+paths:
+  /foods:
+    get:
+      tags:
+        - foods
+      summary: Get all foods
+    post:
+      tags:
+        - foods
+      summary: Create new foods
+      description: ""
+      responses:
+        "401":
+          description: Authentication Error
+  "/foods/{id}":
+    get:
+      tags:
+        - foods
+      summary: Get specific food
+    post:
+      tags:
+        - foods
+      summary: Update specific food
+    delete:
+      tags:
+        - foods
+      summary: Delete specific food
+  "/foods/images/{id}":
+    post:
+      tags:
+        - foods
+      summary: Update image paths from image files to specific food 
+    delete:
+      tags:
+        - foods
+      summary: Delete image of food
+  "foods/search?q={query}&type={type}":
+    get:
+      tags:
+        - foods
+      summary: Search foods by regex based on query string
+  "/public/foods/{id}":
+    get:
+      tags:
+        - public
+      summary: Read specific food with shortId
+  "/public/image/{id}":
+    post:
+      tags:
+        - public
+      summary: Upload food images of user
+  "/users/images":
+    get:
+      tags:
+        - users
+      summary: Read all user upload images
+  "/users/images/{id}":      
+    post:
+      tags:
+        - users
+      summary: Move user image to food db
+    delete:
+      tags:
+        - users
+      summary: Delete one user upload image
+  
+  "kakao/keyboard":
+    get:
+      tags:
+        - kakao
+      summary: get keyboard options
+  "kakao/message":
+    get:
+      tags:
+        - kakao
+      summary: get message according to context
+  "auth/register":
+    post:
+      tags:
+        - auth
+      summary: Sign up with username and password
+  "auth/login":
+    post:
+      tags:
+        - auth
+      summary: Login and get jwt
+  "auth/check":
+    get:
+      tags:
+        - auth
+      summary: Get auth information from jwt
+
+
+
+definitions:
+  Food:
+    required:
+      - name
+    properties:
+      _id:
+        type: ObjectId
+      name:
+        type: String
+      type:
+        type: String
+      time:
+        type: String
+      lat:
+        type: Number
+      lng:
+        type: Number
+      images:
+        type: Array[String]
+  User:
+    required:
+      - username
+      - password
+    properties:
+      _id:
+        type: ObjecId
+      username:
+        type: String
+      email:
+        type: String
+      password:
+        type: Hashed String
+      admin:
+        type: Boolean
+  UserUpload:
+    required:
+      - images
+      - password
+    properties:
+      _id:
+        type: ObjecId
+      to:
+        type: String
+      name:
+        type: String
+      images:
+        type: Array[String]
+
+externalDocs:
+  description: Find out more about Swagger
+  url: "http://swagger.io"
