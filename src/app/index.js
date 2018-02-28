@@ -26,7 +26,7 @@ app.use(bodyParser({
 app.use(swagger({
   routePrefix: '/swagger', // host at /swagger instead of default /docs
   swaggerOptions: {
-    url: 'http://localhost:3000/docs'
+    url: '/docs'
   },
 }))
 app.use(jwt({ secret }).unless({
