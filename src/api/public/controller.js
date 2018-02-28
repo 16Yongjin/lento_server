@@ -7,9 +7,8 @@ module.exports = {
     // GET /public/foods/:id
     try {
       const id = ctx.params.id
-      const food = id.length > 7 ? await Food.read(id) : await Food.readShortId(id)
+      let food = (id.length > 7 ? await Food.read(id) : await Food.readShortId(id)).toObject()
       food.menu = food.menu ? food.menu.split(',') : food.menu
-      console.log(food)
       ctx.body = food
     } catch (e) {
       console.log('[Error] GET /public/foods/:id', e)
@@ -18,12 +17,10 @@ module.exports = {
     }
   },
   async updateImage (ctx) {
+    // POST /public/image
     try {
-
-      // POST /public/image
       const { fields, files } = ctx.request.body
       const { id, name } = fields
-      console.log(ctx.request.body)
       const images = await saveImages(files)
       ctx.body = await UserUpload.create({ to: id, name, images })
     } catch (e) {

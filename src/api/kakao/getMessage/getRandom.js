@@ -1,5 +1,4 @@
 const Food = require('api/foods/model')
-const { getMapUrl, getLongUrl } = require('./getMapUrl')
 const keyboard = require('./keyboard')
 
 const getRandom = async () => {
