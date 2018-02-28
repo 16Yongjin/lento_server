@@ -30,7 +30,7 @@ app.use(swagger({
   },
 }))
 app.use(jwt({ secret }).unless({
-  path: ['/auth/login', '/auth/register', /^\/public/, '/swagger', /^\/docs/]
+  path: ['/auth/login', '/auth/register',  /^\/kakao/, /^\/public/, '/swagger', /^\/docs/]
 }))
 app.use(logger('combined'))
 app.use(responseTime())
