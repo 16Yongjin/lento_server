@@ -6,6 +6,7 @@ const getRandom = async () => {
     const { _id, name, type, time, menu, lat, lng } = await Food.randomShortId()
     const message = {
       text: `${name} ${type ? `(${type})` : ''}
+      
       ${ time ? `영업시간: ${time}` : '' }
       ${ menu ? `메뉴: ${menu}` : '' }
       https://lento.in/foods/${_id}`
