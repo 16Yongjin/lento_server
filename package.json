@@ -6,7 +6,8 @@
   "scripts": {
     "test": "NODE_PATH=src NODE_ENV=test nodemon --exec 'jest'",
     "start": "NODE_PATH=src node index.js",
-    "mon": "NODE_PATH=src nodemon index.js"
+    "mon": "NODE_PATH=src nodemon index.js",
+    "build": "echo Nothing to build"
   },
   "jest": {
     "testEnvironment": "node"
