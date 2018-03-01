@@ -1,6 +1,7 @@
 const request = require('request-promise')
 const moment = require('moment')
 const cheerio = require('cheerio')
+const keyboard = require('./keyboard')
 
 const matchAll = re => menu => {
   let match
@@ -33,11 +34,6 @@ const getCafeteriaMenu = async (message) => {
   } catch (e) {
     return '학식 가져오기에 실패했습니다.'
   }
-}
-
-const keyboard = {
-  'type': 'buttons',
-  'buttons' : ['랜덤 식당 추천', '학식']
 }
 
 const getCafeteriaMessage = async (content) => {

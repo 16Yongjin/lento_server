@@ -10,7 +10,7 @@ const getRandom = async () => {
       ${ time ? `영업시간: ${time}` : '' }
       ${ menu ? `메뉴: ${menu}` : '' }
       https://lento.in/foods/${_id}`
-        .split('\n').map(s => s.trim()).join('\n')
+        .split('\n').map(s => s.trim()).join('\n').replace(/\n{3,}/g, '\n\n')
     }
     return { message, keyboard }
   }

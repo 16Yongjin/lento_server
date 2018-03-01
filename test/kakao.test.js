@@ -1,12 +1,8 @@
 const request = require('supertest')
 const database = require('database')
 const Foods = require('api/foods/controller')
-const {
-  shortenUrl,
-  longToShort,
-  getMapUrl,
-  getLongUrl
-} = require('api/kakao/getMapUrl')
+const { app } = require('app')
+
 
 beforeAll(() => {
   database.connect()
@@ -25,13 +21,10 @@ describe('routes: foods', () => {
     expect(food.name)
   })
 
-  test('should shorten url', async () => {
-    const shortUrl = await shortenUrl('www.google.com')
-    expect(shortUrl).toEqual('https://goo.gl/fbsS')
+  test('should get food recommendation', async () => {
+    const response = await request(app).post('/kakao/message', { content: '식당 추천' })
+    console.log(response.body)
   })
 
-  test('should get long url', async () => {
-    const longUrl = getLongUrl('123', '345')
-    expect(longUrl).toEqual('https://www.google.co.kr/maps/place/123,345/@18z')
-  })
+
 })
