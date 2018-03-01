@@ -1,6 +1,7 @@
 const getRandom = require('./getRandom')
 const { getCafeteriaMessage, cafeteriaKeyboard } = require('./getCafeteriaMenu')
 
+
 const getMessage = async (content) => {
   switch (content) {
     case '식당 추천':
