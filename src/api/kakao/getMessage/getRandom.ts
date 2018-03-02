@@ -1,23 +1,22 @@
-const Food = require('api/foods/model')
-const keyboard = require('./keyboard')
+import Food from 'api/foods/model'
+import keyboard from './keyboard'
 
-const getRandom = async () => {
+const getRandom = async (): Promise<object> => {
   try {
-    const { _id, name, type, time, menu, lat, lng } = await Food.randomShortId()
+    const { _id, name, type, time, menu } = await Food.randomShortId()
     const message = {
       text: `${name} ${type ? `(${type})` : ''}
-      
+
       ${ time ? `영업시간: ${time}` : '' }
       ${ menu ? `메뉴: ${menu}` : '' }
       https://lento.in/foods/${_id}`
         .split('\n').map(s => s.trim()).join('\n').replace(/\n{3,}/g, '\n\n')
     }
     return { message, keyboard }
-  }
-  catch (e) {
+  } catch (e) {
     console.log('getRandom', e)
     return { error: '에러. ㅎㅎ;; ㅈㅅ.. ㅋㅋ!!' }
   }
 }
 
-module.exports = getRandom
+export default getRandom

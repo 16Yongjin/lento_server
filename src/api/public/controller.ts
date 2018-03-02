@@ -2,8 +2,8 @@ const Food = require('api/foods/model')
 const UserUpload = require('api/users/model')
 const { saveImages } = require('helpers')
 
-module.exports = {
-  async read (ctx) {
+export default {
+  async read (ctx: any) {
     // GET /public/foods/:id
     try {
       const id = ctx.params.id
@@ -16,7 +16,7 @@ module.exports = {
       ctx.body = { error: '식당이 없어요' }
     }
   },
-  async updateImage (ctx) {
+  async updateImage (ctx: any) {
     // POST /public/image
     try {
       const { fields, files } = ctx.request.body
@@ -27,7 +27,7 @@ module.exports = {
       console.log('[Error] POST /public/image', e)
     }
   },
-  async random (ctx) {
+  async random (ctx: any) {
     const food = await Food.random()
     food.menu = food.menu ? food.menu.split(',') : food.menu
     ctx.body = food

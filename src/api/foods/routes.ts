@@ -1,5 +1,7 @@
-const router = require('koa-router')()
-const controller = require('api/foods/controller')
+import * as Router from 'koa-router'
+import controller from 'api/foods/controller'
+
+const router = new Router()
 
 // search name
 router.get('/search', controller.search)
@@ -25,5 +27,4 @@ router.delete('/:id', controller.delete)
 // delete image
 router.delete('/images/:id', controller.deleteImage)
 
-
-module.exports = router.routes()
+export default router.routes()

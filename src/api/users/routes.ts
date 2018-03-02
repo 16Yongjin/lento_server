@@ -1,5 +1,7 @@
-const router = require('koa-router')()
-const controller = require('./controller')
+import * as Router from 'koa-router'
+import controller from './controller'
+
+const router = new Router()
 
 router.get('/images', controller.readUserimages)
 
@@ -7,4 +9,4 @@ router.post('/images/:id', controller.saveUserImage)
 
 router.delete('/images/:id', controller.deleteUserImage)
 
-module.exports = router.routes()
+export default router.routes()

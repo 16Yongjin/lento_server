@@ -6,7 +6,9 @@
   "scripts": {
     "test": "NODE_PATH=src NODE_ENV=test nodemon --exec 'jest'",
     "start": "NODE_PATH=src node index.js",
-    "mon": "NODE_PATH=src nodemon index.js"
+    "mon": "NODE_PATH=src nodemon index.js",
+    "build": "tslint --project . && tsc",
+    "dev": "NODE_PATH=src nodemon --watch 'src/**/*' -e ts,tsx --exec 'ts-node' index.js"
   },
   "jest": {
     "testEnvironment": "node"
@@ -14,6 +16,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/cheerio": "^0.22.7",
+    "@types/mz": "0.0.32",
+    "@types/request-promise": "^4.1.41",
     "bcrypt-nodejs": "0.0.3",
     "cheerio": "^1.0.0-rc.2",
     "jsonwebtoken": "^8.1.1",
@@ -35,7 +40,20 @@
     "request-promise": "^4.2.2"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^7.2.5",
+    "@types/koa": "^2.0.44",
+    "@types/koa-morgan": "^1.0.4",
+    "@types/koa-mount": "^3.0.1",
+    "@types/koa-router": "^7.0.27",
+    "@types/koa-static": "^4.0.0",
+    "@types/koa2-cors": "^2.0.1",
+    "@types/mongodb": "^3.0.5",
+    "@types/mongoose": "^5.0.4",
     "jest": "^22.2.1",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "ts-node": "^5.0.1",
+    "tslint": "^5.9.1",
+    "tslint-config-standard": "^7.0.0",
+    "typescript": "^2.7.2"
   }
 }

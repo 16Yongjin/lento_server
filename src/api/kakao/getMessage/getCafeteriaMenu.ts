@@ -1,24 +1,25 @@
-const request = require('request-promise')
-const moment = require('moment')
-const cheerio = require('cheerio')
-const keyboard = require('./keyboard')
+import * as request from 'request-promise'
+import * as moment from 'moment'
+import * as cheerio from 'cheerio'
+import keyboard from './keyboard'
 
-const matchAll = re => menu => {
+const matchAll = (re: RegExp) => (menu: string) => {
   let match
-  const match_list = []
-  while (match = re.exec(menu)) {
-    match_list.push(match)
+  const matchList = []
+  // tslint:disable-next-line
+  while ((match = re.exec(menu)) !== null) {
+    matchList.push(match)
   }
-  return match_list
+  return matchList
 }
 
-const getCafeteriaMenu = async (message) => {
+const getCafeteriaMenu = async (message: string): Promise<string> => {
   const [place, eatingTime] = message.split(' ')
   const today = moment().add(5, 'h')
   const YYYYMMDD = today.format('YYYYMMDD')
   const url = `https://webs.hufs.ac.kr/jsp/HUFS/cafeteria/viewWeek.jsp?startDt=${YYYYMMDD}&endDt=${YYYYMMDD}&`
         + (place === '인문관' ? '&caf_id=h101' : '&caf_id=h102')
-  const re = eatingTime === '점심' ? /중식.+?\d+원/g : /석식.+?\d+원/g;
+  const re = eatingTime === '점심' ? /중식.+?\d+원/g : /석식.+?\d+원/g
   try {
     const html = await request(url)
     const $ = cheerio.load(html)
@@ -38,20 +39,17 @@ const getCafeteriaMenu = async (message) => {
   }
 }
 
-const getCafeteriaMessage = async (content) => {
+export const getCafeteriaMessage = async (content: string): Promise<object> => {
   const text = await getCafeteriaMenu(content)
   return { message: { text }, keyboard }
 }
 
-
-const cafeteriaKeyboard = {
+export const cafeteriaKeyboard = {
   message: {
     'text': '고르세요.'
   },
   keyboard: {
-    "type" : "buttons",
-    "buttons" : ["인문관 점심", "인문관 저녁", "교수회관 점심", "교수회관 저녁"]
+    'type' : 'buttons',
+    'buttons' : ['인문관 점심', '인문관 저녁', '교수회관 점심', '교수회관 저녁']
   }
 }
-
-module.exports = { getCafeteriaMessage, cafeteriaKeyboard }

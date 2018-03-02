@@ -1,19 +1,19 @@
-const Food = require('api/foods/model')
-const UserUpload = require('api/users/model')
-const { adminGuard, saveImages, deleteImageFile } = require('helpers')
+import { Food } from 'api/foods/model'
+import { UserUpload } from 'api/users/model'
+import { adminGuard, deleteImageFile } from 'helpers'
 
 const controller = {
-  async readUserimages (ctx) {
+  async readUserimages (ctx: any) {
     ctx.body = await UserUpload.read()
   },
-  async saveUserImage (ctx) {
+  async saveUserImage (ctx: any) {
     // POST /users/Image/:id
-    const id = ctx.params.id    
+    const id = ctx.params.id
     const { image, to } = ctx.request.body
     console.log(id, image, to)
     ctx.body = await UserUpload.saveImage(id, image, to)
   },
-  async deleteUserImage (ctx) {
+  async deleteUserImage (ctx: any) {
     const id = ctx.params.id
     const image = ctx.query.image
 
@@ -22,4 +22,4 @@ const controller = {
   }
 }
 
-module.exports = adminGuard(controller)
+export default adminGuard(controller)
