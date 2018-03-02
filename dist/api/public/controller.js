@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Food = require('api/foods/model');
-const UserUpload = require('api/users/model');
-const { saveImages } = require('helpers');
+const model_1 = require("api/foods/model");
+const model_2 = require("api/users/model");
+const helpers_1 = require("helpers");
 exports.default = {
     async read(ctx) {
         // GET /public/foods/:id
         try {
             const id = ctx.params.id;
-            let food = (id.length > 7 ? await Food.read(id) : await Food.readShortId(id)).toObject();
+            let food = (id.length > 7 ? await model_1.default.read(id) : await model_1.default.readShortId(id)).toObject();
             food.menu = food.menu ? food.menu.split(',') : food.menu;
             ctx.body = food;
         }
@@ -23,16 +23,20 @@ exports.default = {
         try {
             const { fields, files } = ctx.request.body;
             const { id, name } = fields;
-            const images = await saveImages(files);
-            ctx.body = await UserUpload.create({ to: id, name, images });
+            const images = await helpers_1.saveImages(files);
+            ctx.body = await model_2.default.create({ to: id, name, images });
         }
         catch (e) {
             console.log('[Error] POST /public/image', e);
         }
     },
     async random(ctx) {
-        const food = await Food.random();
-        food.menu = food.menu ? food.menu.split(',') : food.menu;
+        console.log(model_1.default.random);
+        const random = await model_1.default.random();
+        const food = {};
+        Object.assign(food, random);
+        food.menu = random.menu ? random.menu.split(',') : random.menu;
+        console.log(food);
         ctx.body = food;
     }
 };

@@ -24,7 +24,9 @@ const getCafeteriaMenu = async (message: string): Promise<string> => {
     // tslint:disable-next-line
     const html = await request(url)
     const $ = cheerio.load(html)
-    let menu = $('table').text().replace(/\s+/g, ' ')
+    let menu = $('table').text().replace(/\s+/g, ' ').replace(
+      '중식(2)1100~1430 외국어로 메뉴를 알기 원하시면 구글앱 hfspn 또는 웹사이트 www.hfspn.co 에서 확인하실 수 있습니다.','')
+      .replace('석식1640~1840 기타 식당관련 건의사항은 hfspn 게시판을 이용하시면 됩니다.', '')
     const result = matchAll(re)(menu).map(match => {
       return match[0]
         .replace(' Kcal', 'Kcal')

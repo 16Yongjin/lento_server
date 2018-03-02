@@ -1,6 +1,6 @@
-const Food = require('api/foods/model')
-const UserUpload = require('api/users/model')
-const { saveImages } = require('helpers')
+import Food from 'api/foods/model'
+import UserUpload from 'api/users/model'
+import { saveImages } from 'helpers'
 
 export default {
   async read (ctx: any) {
@@ -28,8 +28,12 @@ export default {
     }
   },
   async random (ctx: any) {
-    const food = await Food.random()
-    food.menu = food.menu ? food.menu.split(',') : food.menu
+    console.log(Food.random)
+    const random = await Food.random()
+    const food: any = {}
+    Object.assign(food, random)
+    food.menu = random.menu ? random.menu.split(',') : random.menu
+    console.log(food)
     ctx.body = food
   }
 }
