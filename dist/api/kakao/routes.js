@@ -13,7 +13,6 @@ router.post('/message', async (ctx) => {
         ctx.body = { error: 'invalid request' };
         return console.log('[error] invalid request', { user_key, type, content });
     }
-    console.log(content);
     ctx.body = await getMessage_1.default(content);
 });
 exports.default = router.routes();

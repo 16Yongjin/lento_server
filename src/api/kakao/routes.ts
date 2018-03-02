@@ -14,7 +14,6 @@ router.post('/message', async (ctx: any) => {
     ctx.body = { error: 'invalid request' }
     return console.log('[error] invalid request', { user_key, type, content })
   }
-  console.log(content)
   ctx.body = await getMessage(content)
 })
 

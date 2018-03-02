@@ -32,9 +32,9 @@ const getCafeteriaMenu = async (message) => {
                 .replace(/\s+/g, '\n')
                 .replace(/(\d{2})(\d{2}~\d{2})(\d{2})/g, ' $1:$2:$3\n')
                 .replace('Kcal', ' Kcal');
-        });
-        result.unshift(today.format('M월 D일'));
-        return result.join('\n\n') || '오늘은 밥 안 나와요';
+        }).join('\n\n').trim();
+        const MD = today.format('M월 D일');
+        return result ? `${MD}\n\n${result}` : `${MD}은 밥 안 나와요`;
     }
     catch (e) {
         console.log(e);
