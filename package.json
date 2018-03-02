@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_PATH=src NODE_ENV=test nodemon --exec 'jest'",
-    "start": "NODE_PATH=src node index.js",
+    "start": "NODE_PATH=dist node index.js",
     "mon": "NODE_PATH=src nodemon index.js",
-    "build": "tslint --project . && tsc",
+    "build": "NODE_PATH=src tslint --project . && tsc",
     "dev": "NODE_PATH=src nodemon --watch 'src/**/*' -e ts,tsx --exec 'ts-node' index.js"
   },
   "jest": {

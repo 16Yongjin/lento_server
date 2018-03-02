@@ -19,7 +19,7 @@ export default {
 
       const count = await User.getCount()
       if (count === 1) {
-        await newUser.assignAdmin()
+        newUser.assignAdmin()
       }
 
       ctx.body = { message: 'registered successfully' }

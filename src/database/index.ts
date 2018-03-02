@@ -11,6 +11,8 @@ export const connect = () => {
     mongoose.connect(`${url}/${db}`, {
       useMongoClient: true
     })
+    .then(() => console.log(''))
+    .catch(e => console.log(e))
 
     const connection = mongoose.connection
     connection.on('error', reject)

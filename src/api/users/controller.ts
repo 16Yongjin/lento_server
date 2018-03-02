@@ -1,4 +1,3 @@
-import { Food } from 'api/foods/model'
 import { UserUpload } from 'api/users/model'
 import { adminGuard, deleteImageFile } from 'helpers'
 

@@ -1,5 +1,5 @@
 import { Schema, Model, model } from 'mongoose'
-import { Food } from 'api/foods/model'
+import Food from 'api/foods/model'
 import { IUserUploadDocument } from './interface'
 
 export const UserUploadSchema = new Schema({
@@ -14,16 +14,16 @@ export const UserUploadSchema = new Schema({
 export interface IUserUpload extends IUserUploadDocument {}
 
 export interface IUserUploadModel extends Model<IUserUpload> {
-  read (id?: string): IUserUpload
-  saveImage (id: string, image: string, to: string): IUserUpload
-  deleteImage (id: string, image: string): IUserUpload
+  read (id?: string): Promise<IUserUpload>
+  saveImage (id: string, image: string, to: string): Promise<IUserUpload>
+  deleteImage (id: string, image: string): Promise<IUserUpload>
 }
 
-UserUploadSchema.statics.read = function (id?: string) {
+UserUploadSchema.statics.read = function (id?: string): Promise<IUserUpload> {
   return id ? this.findById(id) : this.find({})
 }
 
-UserUploadSchema.statics.saveImage = async function (id: string, image: string, to: string) {
+UserUploadSchema.statics.saveImage = async function (id: string, image: string, to: string): Promise<IUserUpload> {
   await this.findByIdAndUpdate(id, {
     $pull: { images: image }
   })
@@ -31,7 +31,7 @@ UserUploadSchema.statics.saveImage = async function (id: string, image: string, 
   return this.findById(id)
 }
 
-UserUploadSchema.statics.deleteImage = async function (id: string, image: string) {
+UserUploadSchema.statics.deleteImage = async function (id: string, image: string): Promise<IUserUpload> {
   await this.findByIdAndUpdate(id, {
     $pull: { images: image }
   })

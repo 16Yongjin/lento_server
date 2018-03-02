@@ -29,9 +29,9 @@ export interface IUser extends IUserDocument {
 }
 
 export interface IUserModel extends Model<IUser> {
-  createUser (username: string, password: string): IUser
-  findOneByUsername (username: string): IUser
-  getCount (): number
+  createUser (username: string, password: string): Promise<IUser>
+  findOneByUsername (username: string): Promise<IUser>
+  getCount (): Promise<number>
 }
 
 const encrypt = (password: string): string => {
@@ -41,17 +41,17 @@ const encrypt = (password: string): string => {
     .digest('base64')
 }
 
-UserSchema.statics.createUser = function (username: string, password: string): IUser {
+UserSchema.statics.createUser = function (username: string, password: string): Promise<IUser> {
   password = encrypt(password)
   const user = new this({ username, password })
   return user.save()
 }
 
-UserSchema.statics.findOneByUsername = function (username: string): IUser {
+UserSchema.statics.findOneByUsername = function (username: string): Promise<IUser> {
   return this.findOne({ username }).exec()
 }
 
-UserSchema.statics.getCount = function (): IUser {
+UserSchema.statics.getCount = function (): Promise<number> {
   return this.count({}).exec()
 }
 
@@ -60,7 +60,7 @@ UserSchema.methods.verify = function (password: string): boolean {
   return this.password === encrypt(password)
 }
 
-UserSchema.methods.assignAdmin = function (): IUser {
+UserSchema.methods.assignAdmin = function (): Promise<IUser> {
   this.admin = true
   return this.save()
 }
