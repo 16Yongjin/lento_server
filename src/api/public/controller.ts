@@ -1,6 +1,7 @@
 import Food from 'api/foods/model'
 import UserUpload from 'api/users/model'
 import { saveImages } from 'helpers'
+import { getCafeteriaObj } from 'api/kakao/getMessage/getCafeteriaMenu'
 
 export default {
   async read (ctx: any) {
@@ -35,5 +36,13 @@ export default {
     food.menu = random.menu ? random.menu.split(',') : random.menu
     console.log(food)
     ctx.body = food
+  },
+  async cafeteriaLunch (ctx: any) {
+    const [inmun, kyosu] = await Promise.all([getCafeteriaObj('인문관 점심'), getCafeteriaObj('교수회관 점심')])
+    ctx.body = { inmun, kyosu }
+  },
+  async cafeteriaDinner (ctx: any) {
+    const [inmun, kyosu] = await Promise.all([getCafeteriaObj('인문관 저녁'), getCafeteriaObj('교수회관 저녁')])
+    ctx.body = { inmun, kyosu }
   }
 }
