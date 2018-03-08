@@ -41,7 +41,8 @@ const getCafeteria = async (message: string): Promise<Array<string>> => {
 export const getCafeteriaObj = async (message: string): Promise<Object> => {
   const day = moment().format('D') === moment().add(5, 'h').format('D') ? '오늘' : '내일'
   const menus = await getCafeteria(message)
-  return { day, menus, in: message.split(' ')[0] }
+  const [place, time] = message.split(' ')[0]
+  return { day, menus, place, time }
 }
 
 const getCafeteriaMenu = async (message: string): Promise<string> => {
