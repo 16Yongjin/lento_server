@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const model_1 = require("api/foods/model");
 const model_2 = require("api/users/model");
 const helpers_1 = require("helpers");
+const getCafeteriaMenu_1 = require("api/kakao/getMessage/getCafeteriaMenu");
 exports.default = {
     async read(ctx) {
         // GET /public/foods/:id
@@ -38,6 +39,14 @@ exports.default = {
         food.menu = random.menu ? random.menu.split(',') : random.menu;
         console.log(food);
         ctx.body = food;
+    },
+    async cafeteriaLunch(ctx) {
+        const [inmun, kyosu] = await Promise.all([getCafeteriaMenu_1.getCafeteriaObj('인문관 점심'), getCafeteriaMenu_1.getCafeteriaObj('교수회관 점심')]);
+        ctx.body = { inmun, kyosu };
+    },
+    async cafeteriaDinner(ctx) {
+        const [inmun, kyosu] = await Promise.all([getCafeteriaMenu_1.getCafeteriaObj('인문관 저녁'), getCafeteriaMenu_1.getCafeteriaObj('교수회관 저녁')]);
+        ctx.body = { inmun, kyosu };
     }
 };
 //# sourceMappingURL=controller.js.map

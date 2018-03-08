@@ -20,6 +20,7 @@ const getCafeteria = async (message: string): Promise<Array<string>> => {
         + (place === '인문관' ? '&caf_id=h101' : '&caf_id=h102')
   const re = eatingTime === '점심' ? /중식.+?\d+원/g : /석식.+?\d+원/g
   try {
+    // tslint:disable-next-line
     const html = await request(url)
     const $ = cheerio.load(html)
     let menu = $('table').text().replace(/\s+/g, ' ').replace(
