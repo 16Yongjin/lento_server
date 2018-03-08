@@ -7,9 +7,7 @@ router.get('/foods/random', controller.random)
 
 router.get('/foods/:id', controller.read)
 
-router.get('/hufs/lunch', controller.cafeteriaLunch)
-
-router.get('/hufs/dinner', controller.cafeteriaDinner)
+router.get('/hufs', controller.hufs)
 
 router.post('/images', controller.updateImage)
 

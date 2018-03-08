@@ -37,12 +37,17 @@ export default {
     console.log(food)
     ctx.body = food
   },
-  async cafeteriaLunch (ctx: any) {
-    const [inmun, kyosu] = await Promise.all([getCafeteriaObj('인문관 점심'), getCafeteriaObj('교수회관 점심')])
-    ctx.body = { inmun, kyosu }
-  },
-  async cafeteriaDinner (ctx: any) {
-    const [inmun, kyosu] = await Promise.all([getCafeteriaObj('인문관 저녁'), getCafeteriaObj('교수회관 저녁')])
-    ctx.body = { inmun, kyosu }
+  async hufs (ctx: any) {
+    const [ inLunch, kyoLunch, inDinner, kyoDinner ] =
+      await Promise.all([getCafeteriaObj('인문관 점심'), getCafeteriaObj('교수회관 점심'), getCafeteriaObj('인문관 저녁'), getCafeteriaObj('교수회관 저녁')])
+    ctx.body = {
+      lunch: {
+        inmun: inLunch,
+        kyosu: kyoLunch
+      },
+      dinner: {
+        inmun: inDinner,
+        kyosu: kyoDinner
+      }}
   }
 }
