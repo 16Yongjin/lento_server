@@ -1,3 +1,4 @@
 node_modules/
 request.http
 src/uploads/
+dist/
