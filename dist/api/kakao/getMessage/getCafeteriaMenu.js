@@ -13,9 +13,21 @@ const matchAll = (re) => (menu) => {
     }
     return matchList;
 };
+const cached = {
+    '인문관 점심': { day: null, menus: null },
+    '인문관 저녁': { day: null, menus: null },
+    '교수회관 점심': { day: null, menus: null },
+    '교수회관 저녁': { day: null, menus: null }
+};
 const getCafeteria = async (message) => {
     const [place, eatingTime] = message.split(' ');
-    const YYYYMMDD = moment().add(5, 'h').format('YYYYMMDD');
+    const time = moment().add(5, 'h');
+    const YYYYMMDD = time.format('YYYYMMDD');
+    const day = time.days();
+    if (cached[message] && cached[message].day === day) {
+        console.log('return cached', message);
+        return Promise.resolve(cached[message].menus);
+    }
     const url = `https://webs.hufs.ac.kr/jsp/HUFS/cafeteria/viewWeek.jsp?startDt=${YYYYMMDD}&endDt=${YYYYMMDD}&`
         + (place === '인문관' ? '&caf_id=h101' : '&caf_id=h102');
     const re = eatingTime === '점심' ? /중식.+?\d+원/g : /석식.+?\d+원/g;
@@ -25,13 +37,15 @@ const getCafeteria = async (message) => {
         const $ = cheerio.load(html);
         let menu = $('table').text().replace(/\s+/g, ' ').replace('중식(2)1100~1430 외국어로 메뉴를 알기 원하시면 구글앱 hfspn 또는 웹사이트 www.hfspn.co 에서 확인하실 수 있습니다.', '')
             .replace('석식1640~1840 기타 식당관련 건의사항은 hfspn 게시판을 이용하시면 됩니다.', '');
-        return matchAll(re)(menu).map(match => {
+        const menus = matchAll(re)(menu).map(match => {
             return match[0]
                 .replace(' Kcal', 'Kcal')
                 .replace(/\s+/g, '\n')
                 .replace(/(\d{2})(\d{2}~\d{2})(\d{2})/g, ' $1:$2:$3\n')
                 .replace('Kcal', ' Kcal');
         });
+        Object.assign(cached[message], { day, menus });
+        return menus;
     }
     catch (e) {
         return [];
@@ -40,7 +54,8 @@ const getCafeteria = async (message) => {
 exports.getCafeteriaObj = async (message) => {
     const day = moment().format('D') === moment().add(5, 'h').format('D') ? '오늘' : '내일';
     const menus = await getCafeteria(message);
-    return { day, menus };
+    const [place, time] = message.split(' ');
+    return { day, menus, place, time };
 };
 const getCafeteriaMenu = async (message) => {
     const day = moment().format('D') === moment().add(5, 'h').format('D') ? '오늘' : '내일';

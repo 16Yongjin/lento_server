@@ -40,7 +40,7 @@ export default {
   async hufs (ctx: any) {
     const [ inLunch, kyoLunch, inDinner, kyoDinner ] =
       await Promise.all([getCafeteriaObj('인문관 점심'), getCafeteriaObj('교수회관 점심'), getCafeteriaObj('인문관 저녁'), getCafeteriaObj('교수회관 저녁')])
-    ctx.body = [
+    const menus = [
       {
         time: '점심',
         inmun: inLunch,
@@ -52,5 +52,6 @@ export default {
         kyosu: kyoDinner
       }
     ]
+    ctx.body = menus
   }
 }

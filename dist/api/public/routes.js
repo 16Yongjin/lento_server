@@ -5,8 +5,7 @@ const controller_1 = require("./controller");
 const router = new Router();
 router.get('/foods/random', controller_1.default.random);
 router.get('/foods/:id', controller_1.default.read);
-router.get('/hufs/lunch', controller_1.default.cafeteriaLunch);
-router.get('/hufs/dinner', controller_1.default.cafeteriaDinner);
+router.get('/hufs', controller_1.default.hufs);
 router.post('/images', controller_1.default.updateImage);
 exports.default = router.routes();
 //# sourceMappingURL=routes.js.map

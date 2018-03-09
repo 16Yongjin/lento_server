@@ -40,13 +40,21 @@ exports.default = {
         console.log(food);
         ctx.body = food;
     },
-    async cafeteriaLunch(ctx) {
-        const [inmun, kyosu] = await Promise.all([getCafeteriaMenu_1.getCafeteriaObj('인문관 점심'), getCafeteriaMenu_1.getCafeteriaObj('교수회관 점심')]);
-        ctx.body = { inmun, kyosu };
-    },
-    async cafeteriaDinner(ctx) {
-        const [inmun, kyosu] = await Promise.all([getCafeteriaMenu_1.getCafeteriaObj('인문관 저녁'), getCafeteriaMenu_1.getCafeteriaObj('교수회관 저녁')]);
-        ctx.body = { inmun, kyosu };
+    async hufs(ctx) {
+        const [inLunch, kyoLunch, inDinner, kyoDinner] = await Promise.all([getCafeteriaMenu_1.getCafeteriaObj('인문관 점심'), getCafeteriaMenu_1.getCafeteriaObj('교수회관 점심'), getCafeteriaMenu_1.getCafeteriaObj('인문관 저녁'), getCafeteriaMenu_1.getCafeteriaObj('교수회관 저녁')]);
+        const menus = [
+            {
+                time: '점심',
+                inmun: inLunch,
+                kyosu: kyoLunch
+            },
+            {
+                time: '저녁',
+                inmun: inDinner,
+                kyosu: kyoDinner
+            }
+        ];
+        ctx.body = menus;
     }
 };
 //# sourceMappingURL=controller.js.map
