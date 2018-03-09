@@ -28,7 +28,7 @@ const getCafeteria = async (message: string): Promise<Array<string>> => {
 
   if (cached[message] && cached[message].day === day) {
     console.log('return cached', message)
-    return Promise.resolve(cached[message].menus)
+    return Promise.resolve(cached[message].menus.slice())
   }
 
   const url = `https://webs.hufs.ac.kr/jsp/HUFS/cafeteria/viewWeek.jsp?startDt=${YYYYMMDD}&endDt=${YYYYMMDD}&`
