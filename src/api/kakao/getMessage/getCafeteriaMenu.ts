@@ -50,7 +50,7 @@ const getCafeteria = async (message: string): Promise<Array<string>> => {
     })
 
     Object.assign(cached[message], { day, menus })
-    return menus
+    return menus.slice()
   } catch (e) {
     return []
   }
