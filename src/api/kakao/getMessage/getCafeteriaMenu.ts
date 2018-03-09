@@ -59,7 +59,7 @@ const getCafeteria = async (message: string): Promise<Array<string>> => {
 export const getCafeteriaObj = async (message: string): Promise<Object> => {
   const day = moment().format('D') === moment().add(5, 'h').format('D') ? '오늘' : '내일'
   const menus = await getCafeteria(message)
-  !menus.length && menus.push(`${day}은 학식이 제공되지 않습니다.`)
+  menus.length === 0 && menus.push(`${day}은 학식이 제공되지 않습니다.`)
   const [place, time] = message.split(' ')
   return { day, menus, place, time }
 }
