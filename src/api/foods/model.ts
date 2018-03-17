@@ -1,3 +1,4 @@
+import * as _ from 'lodash'
 import { Schema, Model, model } from 'mongoose'
 import { IFoodDocument } from './interface'
 
@@ -28,7 +29,8 @@ export interface IFoodModel extends Model<IFood> {
   random (): Promise<IFood>
   search (query: string, type: string): Promise<IFood>
   readShortId (shortId: string): Promise<IFood>
-  randomShortId (): Promise<IFood>
+  randomShortId (): Promise<IFood>,
+  randomWithImage (n: number): Promise<IFood>
 }
 
 FoodSchema.statics.read = function (id: string): Promise<IFood> {
@@ -71,7 +73,7 @@ FoodSchema.statics.search = function (query: string, type = 'name'): Promise<IFo
 let IdPrefix = ''
 FoodSchema.statics.readShortId = async function (shortId: string): Promise<IFood> {
   if (!IdPrefix) {
-    await this.find({}).then((foods: any): any => {
+    await this.find({}).then((foods: Array<IFood>) => {
       IdPrefix = foods[0]._id.toString().slice(0, -5)
     })
     console.log('id prefix is', IdPrefix)
@@ -81,9 +83,19 @@ FoodSchema.statics.readShortId = async function (shortId: string): Promise<IFood
 }
 
 FoodSchema.statics.randomShortId = async function (): Promise<IFood> {
-  const food = await this.aggregate().sample(1).exec().then((r: any): any => r[0])
+  const food = await this.aggregate().sample(1).exec().then((r: Array<IFood>): IFood => r[0])
   food._id = food._id.toString().slice(-5)
   return food
+}
+
+FoodSchema.statics.randomWithImage = async function (n: number): Promise<Array<Object>> {
+  const foods = await this.find({ 'images.0': { $exists: true } })
+  return _.sampleSize(foods, n).map(({ _id, name, images, type }: IFood) => ({
+    name,
+    type,
+    images,
+    _id: _id.toString().slice(-5)
+  }))
 }
 
 export const Food: IFoodModel = model<IFood, IFoodModel>('food', FoodSchema)

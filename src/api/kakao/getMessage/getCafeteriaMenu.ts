@@ -13,6 +13,8 @@ const matchAll = (re: RegExp) => (menu: string) => {
   return matchList
 }
 
+const getDay = () => moment().days() === moment().add(5, 'h').days() ? '오늘' : '내일'
+
 const cached: { [index: string]: { day: number, menus: Array<string>} } = {
   '인문관 점심': { day: null as number, menus: null as Array<string> },
   '인문관 저녁': { day: null as number, menus: null as Array<string> },
@@ -57,16 +59,15 @@ const getCafeteria = async (message: string): Promise<Array<string>> => {
 }
 
 export const getCafeteriaObj = async (message: string): Promise<Object> => {
-  const day = moment().format('D') === moment().add(5, 'h').format('D') ? '오늘' : '내일'
+  const day = getDay()
   const menus = await getCafeteria(message)
-  console.log(menus.length, menus.length === 0)
   menus.length === 0 && menus.push(`${day}은 학식이 제공되지 않습니다.`)
   const [place, time] = message.split(' ')
   return { day, menus, place, time }
 }
 
 const getCafeteriaMenu = async (message: string): Promise<string> => {
-  const day = moment().format('D') === moment().add(5, 'h').format('D') ? '오늘' : '내일'
+  const day = getDay()
   const menus = await getCafeteria(message)
 
   menus.length > 0 && menus.unshift(day + ' ' + message)

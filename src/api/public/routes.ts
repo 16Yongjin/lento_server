@@ -5,6 +5,8 @@ const router = new Router()
 
 router.get('/foods/random', controller.random)
 
+router.get('/foods/randomWithImage', controller.randomWithImage)
+
 router.get('/foods/:id', controller.read)
 
 router.get('/hufs', controller.hufs)

@@ -37,6 +37,11 @@ paths:
       responses:
         "401":
           description: Authentication Error
+  "/foods/search?q={query}&type={type}"
+    get:
+      tags:
+        - foods
+      summary: Search food
   "/foods/{id}":
     get:
       tags:

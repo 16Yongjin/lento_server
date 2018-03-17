@@ -53,5 +53,9 @@ export default {
       }
     ]
     ctx.body = menus
+  },
+  async randomWithImage (ctx: any) {
+    const food = await Food.randomWithImage(4)
+    ctx.body = food
   }
 }
