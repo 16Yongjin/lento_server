@@ -1,12 +1,13 @@
 import * as Router from 'koa-router'
 import controller from './controller'
-
 const router = new Router()
 
-router.get('/images', controller.readUserimages)
+export default router
 
-router.post('/images/:id', controller.saveUserImage)
+  .get('/images', controller.readUserimages)
 
-router.delete('/images/:id', controller.deleteUserImage)
+  .post('/images/:id', controller.saveUserImage)
 
-export default router.routes()
+  .delete('/images/:id', controller.deleteUserImage)
+
+  .routes()

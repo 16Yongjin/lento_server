@@ -1,12 +1,13 @@
 import * as Router from 'koa-router'
 import controller from './controller'
-
 const router = new Router()
 
-router.post('/register', controller.register)
+export default router
 
-router.post('/login', controller.login)
+  .post('/register', controller.register)
 
-router.get('/check', controller.check)
+  .post('/login', controller.login)
 
-export default router.routes()
+  .get('/check', controller.check)
+
+  .routes()

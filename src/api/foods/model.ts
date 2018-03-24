@@ -15,7 +15,8 @@ export const FoodSchema: Schema = new Schema({
   images: {
     type: [String],
     default: []
-  }
+  },
+  sensei: String
 })
 
 export interface IFood extends IFoodDocument {}

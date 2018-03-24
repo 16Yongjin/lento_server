@@ -7,5 +7,6 @@ export interface IFoodDocument extends Document {
   menu?: string,
   lat?: number,
   lng?: number,
-  images?: Array<string>
+  images?: Array<string>,
+  sensei?: string
 }

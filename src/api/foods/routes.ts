@@ -1,30 +1,23 @@
 import * as Router from 'koa-router'
 import controller from 'api/foods/controller'
-
 const router = new Router()
 
-// search name
-router.get('/search', controller.search)
+export default router
 
-// read items
-router.get('/', controller.readAll)
+  .get('/search', controller.search) // search name
 
-// read item
-router.get('/:id', controller.read)
+  .get('/', controller.readAll) // read items
 
-// create item
-router.post('/', controller.create)
+  .get('/:id', controller.read) // read item
 
-// update item
-router.post('/:id', controller.update)
+  .post('/', controller.create) // create item
 
-// update images
-router.post('/images/:id', controller.updateImage)
+  .post('/:id', controller.update) // update item
 
-// delete item
-router.delete('/:id', controller.delete)
+  .delete('/:id', controller.delete) // delete item
 
-// delete image
-router.delete('/images/:id', controller.deleteImage)
+  .post('/images/:id', controller.updateImage) // update images
 
-export default router.routes()
+  .delete('/images/:id', controller.deleteImage) // delete image
+
+  .routes()

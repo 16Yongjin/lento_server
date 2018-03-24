@@ -52,3 +52,5 @@ const check = (cont: any) => (condition: any) => {
 }
 
 export const adminGuard = (controller: object) => check(controller)(isAdmin)
+
+export const getId = (ctx: any) => ctx.params.id

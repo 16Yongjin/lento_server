@@ -12,5 +12,7 @@ export default async (content: string): Promise<object> => {
     case '교수회관 점심':
     case '교수회관 저녁':
       return getCafeteriaMessage(content)
+    default:
+      return {  message: { text: 'Error' } }
   }
 }

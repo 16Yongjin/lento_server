@@ -80,11 +80,9 @@ export const getCafeteriaMessage = async (content: string): Promise<object> => {
 }
 
 export const cafeteriaKeyboard = {
-  message: {
-    'text': '고르세요.'
-  },
+  message: { text: '고르세요.' },
   keyboard: {
-    'type' : 'buttons',
-    'buttons' : ['인문관 점심', '인문관 저녁', '교수회관 점심', '교수회관 저녁']
+    type : 'buttons',
+    buttons : ['인문관 점심', '인문관 저녁', '교수회관 점심', '교수회관 저녁']
   }
 }
