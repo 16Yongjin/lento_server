@@ -17,7 +17,8 @@ export const FoodSchema: Schema = new Schema({
     default: []
   },
   sensei: String,
-  honbab: Number
+  honbab: Number,
+  honmono: String
 })
 
 export interface IFood extends IFoodDocument {}
