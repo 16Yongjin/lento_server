@@ -4,6 +4,8 @@ const router = new Router()
 
 export default router
 
+  .get('/logs', controller.logs)
+
   .get('/images', controller.readUserimages)
 
   .post('/images/:id', controller.saveUserImage)

@@ -11,6 +11,8 @@ import * as mount from 'koa-mount'
 import * as database from 'database'
 import * as jwt from 'koa-jwt'
 import config from 'configuration'
+import * as fs from 'fs'
+const accessLogStream = fs.createWriteStream(`./access.log`, { flags: 'a' })
 
 const swagger = require('koa2-swagger-ui')
 const responseTime = require('koa-response-time')
@@ -34,8 +36,9 @@ app.use(swagger({
 app.use(jwt({ secret }).unless({
   path: ['/auth/login', '/auth/register', /^\/kakao/, /^\/public/, '/swagger', /^\/docs/]
 }))
-app.use(logger('combined'))
+app.use(logger('combined', { stream: accessLogStream }))
 app.use(responseTime())
+app.use(mount('/public/maps', serve('./src/maps')))
 app.use(mount('/public/images', serve('./src/uploads')))
 app.use(router.routes())
 app.use(ctx => { ctx.type = 'json' })

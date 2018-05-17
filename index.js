@@ -1,3 +1,3 @@
-const app = require('./dist/app')
+const app = require('app')
 
 app.start()
