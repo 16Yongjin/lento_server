@@ -4,11 +4,13 @@ import keyboard from './keyboard'
 const getRandom = async (): Promise<object> => {
   try {
     const { _id, name, type, time, menu } = await Food.randomShortId()
+    const menuArr = menu.split(/ ?, ?/).slice(0, 10)
+    const menus = menuArr.length < 10 ? menuArr.join(', ') : menuArr.join(', ') + ' 등'
     const message = {
       text: `${name} ${type ? `(${type})` : ''}
 
       ${ time ? `영업시간: ${time}` : '' }
-      ${ menu ? `메뉴: ${menu.split(',').slice(0, 10).join(',')}` : '' }
+      ${ menu ? `메뉴: ${menus}` : '' }
       https://lento.in/foods/${_id}`
         .split('\n').map(s => s.trim()).join('\n').replace(/\n{3,}/g, '\n\n')
     }
