@@ -8,7 +8,7 @@ const getRandom = async (): Promise<object> => {
       text: `${name} ${type ? `(${type})` : ''}
 
       ${ time ? `영업시간: ${time}` : '' }
-      ${ menu ? `메뉴: ${menu}` : '' }
+      ${ menu ? `메뉴: ${menu.split(',').slice(0, 10).join(',')}` : '' }
       https://lento.in/foods/${_id}`
         .split('\n').map(s => s.trim()).join('\n').replace(/\n{3,}/g, '\n\n')
     }

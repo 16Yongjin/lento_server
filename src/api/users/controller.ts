@@ -1,10 +1,10 @@
 import { UserUpload } from 'api/users/model'
 import { adminGuard, deleteImageFile, getId } from 'helpers'
-import * as fs from 'mz/fs'
+import { countLogs } from './logsHandler'
 
 const controller = {
   async logs (ctx: any) {
-    ctx.body = await fs.readFile('./access.log')
+    ctx.body = await countLogs()
   },
   async readUserimages (ctx: any) {
     ctx.body = await UserUpload.read()

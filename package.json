@@ -34,10 +34,11 @@
     "koa-static": "^4.0.2",
     "koa2-cors": "^2.0.5",
     "koa2-swagger-ui": "^2.6.12",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.10",
     "moment": "^2.20.1",
     "mongoose": "^4.13.10",
     "mz": "^2.7.0",
+    "partial-js": "^1.1.5",
     "request-promise": "^4.2.2"
   },
   "devDependencies": {
