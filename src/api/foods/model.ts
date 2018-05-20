@@ -45,9 +45,9 @@ FoodSchema.statics.read = function (id: string): Promise<IFood> {
 }
 
 FoodSchema.statics.readType = async function (type: string): Promise<Array<IFood>> {
-  const foods = this.find({ type })
-  return foods.filter((food: IFood): boolean => !!food.images.length)
-    .concat(foods.filter((food: IFood): boolean => !food.images.length))
+  const foods = await this.find({ type })
+  return foods.filter((food: IFood): boolean => food.images.length > 0)
+    .concat(foods.filter((food: IFood): boolean => food.images.length <= 0))
 }
 
 FoodSchema.statics.updateFood = async function (id: string, data: any): Promise<IFood> {
