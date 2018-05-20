@@ -3,14 +3,18 @@ import controller from './controller'
 
 const router = new Router()
 
-router.get('/foods/random', controller.random)
+export default router
 
-router.get('/foods/randomWithImage', controller.randomWithImage)
+  .get('/foods/random', controller.random)
 
-router.get('/foods/:id', controller.read)
+  .get('/type/:type', controller.readType)
 
-router.get('/hufs', controller.hufs)
+  .get('/foods/randomWithImage', controller.randomWithImage)
 
-router.post('/images', controller.updateImage)
+  .get('/foods/:id', controller.read)
 
-export default router.routes()
+  .get('/hufs', controller.hufs)
+
+  .post('/images', controller.updateImage)
+
+  .routes()

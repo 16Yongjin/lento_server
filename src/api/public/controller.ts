@@ -17,6 +17,15 @@ export default {
       ctx.body = { error: '식당이 없어요' }
     }
   },
+  async readType (ctx: any) {
+    // GET /public/type/:type
+    try {
+      const type = ctx.params.type
+      ctx.body = await Food.readType(type)
+    } catch (e) {
+      console.log('[Error] GET /public/type/:type', e)
+    }
+  },
   async updateImage (ctx: any) {
     // POST /public/image
     try {

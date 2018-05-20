@@ -7,7 +7,10 @@ export const FoodSchema: Schema = new Schema({
     type: String,
     required: [true, '음식점 이름을 입력해주세요.']
   },
-  type: String,
+  type: {
+    type: String,
+    index: true
+  },
   time: String,
   menu: String,
   lat: Number,
@@ -24,7 +27,8 @@ export const FoodSchema: Schema = new Schema({
 export interface IFood extends IFoodDocument {}
 
 export interface IFoodModel extends Model<IFood> {
-  read (id?: string): Promise<IFood>
+  read (id?: string): Promise<IFood>,
+  readType (type: string): Promise<Array<IFood>>
   updateFood (id: string, data: any): Promise<IFood>
   updateImages (id: string, imagePaths: Array<string>): Promise<IFood>
   delete (id: string): Promise<IFood>
@@ -32,12 +36,16 @@ export interface IFoodModel extends Model<IFood> {
   random (): Promise<IFood>
   search (query: string, type: string): Promise<IFood>
   readShortId (shortId: string): Promise<IFood>
-  randomShortId (): Promise<IFood>,
+  randomShortId (): Promise<IFood>
   randomWithImage (n: number): Promise<IFood>
 }
 
 FoodSchema.statics.read = function (id: string): Promise<IFood> {
   return id ? this.findById(id) : this.find()
+}
+
+FoodSchema.statics.readType = function (type: string): Promise<Array<IFood>> {
+  return this.find({ type })
 }
 
 FoodSchema.statics.updateFood = async function (id: string, data: any): Promise<IFood> {
