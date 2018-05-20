@@ -38,7 +38,6 @@ export default {
     }
   },
   async random (ctx: any) {
-    console.log(Food.random)
     const random = await Food.random()
     const food: any = {}
     Object.assign(food, random)

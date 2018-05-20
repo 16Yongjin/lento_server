@@ -16,7 +16,9 @@ export const getLogs = async () => {
       const url = log[6]
       const status = log[8]
       const userAgent = log.slice(11).join(' ')
-      const urlGroup = url.split('/').slice(0, 3).join('/')
+      const urlSplit = url.split('/')
+      const urlSlice = _.last(urlSplit).length > 20 ? 2 : 3
+      const urlGroup = urlSplit.slice(0, urlSlice).join('/')
       return { time, date, method, urlGroup, status, userAgent }
     })
   return logs
