@@ -7,6 +7,8 @@ export default router
 
   .get('/foods/random', controller.random)
 
+  .get('/type/:type/:page', controller.paginagteType)
+
   .get('/type/:type', controller.readType)
 
   .get('/foods/randomWithImage', controller.randomWithImage)

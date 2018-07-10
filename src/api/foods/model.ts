@@ -1,6 +1,8 @@
 import * as _ from 'lodash'
 import { Schema, Model, model } from 'mongoose'
-import { IFoodDocument } from './interface'
+import { IFood, IFoodTypeCache } from './interface'
+
+const foodTypeCache: IFoodTypeCache = {}
 
 export const FoodSchema: Schema = new Schema({
   name: {
@@ -24,11 +26,11 @@ export const FoodSchema: Schema = new Schema({
   honmono: String
 })
 
-export interface IFood extends IFoodDocument {}
-
 export interface IFoodModel extends Model<IFood> {
-  read (id?: string): Promise<IFood>,
+  read (id?: string): Promise<IFood>
+  readAll (): Promise<Array<IFood>>
   readType (type: string): Promise<Array<IFood>>
+  paginateType (type: string, page: number, offset: number): Promise<Array<IFood>>
   updateFood (id: string, data: any): Promise<IFood>
   updateImages (id: string, imagePaths: Array<string>): Promise<IFood>
   delete (id: string): Promise<IFood>
@@ -41,18 +43,48 @@ export interface IFoodModel extends Model<IFood> {
 }
 
 FoodSchema.statics.read = function (id: string): Promise<IFood> {
-  return id ? this.findById(id) : this.find()
+  return this.findById(id)
+}
+
+FoodSchema.statics.readAll = function (): Promise<Array<IFood>> {
+  return this.find()
 }
 
 FoodSchema.statics.readType = async function (type: string): Promise<Array<IFood>> {
+  if (foodTypeCache[type]) {
+    return foodTypeCache[type]
+  }
   const foods = await this.find({ type })
-  return foods.filter((food: IFood): boolean => food.images.length > 0)
+
+  const imageFirstFood = foods.filter((food: IFood): boolean => food.images.length > 0)
     .concat(foods.filter((food: IFood): boolean => food.images.length <= 0))
+  if (imageFirstFood.length > 0) {
+    foodTypeCache[type] = imageFirstFood
+  }
+  return imageFirstFood
+}
+
+FoodSchema.statics.paginateType = async function (type: string, page: number = 1, offset: number = 12): Promise<Array<IFood>> {
+  if (foodTypeCache[type]) {
+    console.log('from cache')
+    return foodTypeCache[type].slice((page - 1) * offset, page * offset)
+  }
+
+  const foods = await this.find({ type })
+  const imageFirstFood = foods.filter((food: IFood): boolean => food.images.length > 0)
+    .concat(foods.filter((food: IFood): boolean => food.images.length <= 0))
+  if (imageFirstFood.length > 0) {
+    foodTypeCache[type] = imageFirstFood
+  }
+  return imageFirstFood.slice((page - 1) * offset, page * offset)
 }
 
 FoodSchema.statics.updateFood = async function (id: string, data: any): Promise<IFood> {
   await this.findByIdAndUpdate(id, data)
-  return this.findById(id)
+  const updated = await this.findById(id)
+  foodTypeCache[updated.type] = null
+  console.log(updated.type)
+  return updated
 }
 
 FoodSchema.statics.updateImages = async function (id: string, imagePaths: Array<string>): Promise<IFood> {

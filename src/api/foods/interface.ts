@@ -10,3 +10,9 @@ export interface IFoodDocument extends Document {
   images?: Array<string>,
   sensei?: string
 }
+
+export interface IFood extends IFoodDocument {}
+
+export interface IFoodTypeCache {
+  [key: string]: Array<IFood>
+}

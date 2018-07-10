@@ -12,6 +12,7 @@ import * as database from 'database'
 import * as jwt from 'koa-jwt'
 import config from 'configuration'
 import * as fs from 'fs'
+
 const accessLogStream = fs.createWriteStream(`./access.log`, { flags: 'a' })
 
 const swagger = require('koa2-swagger-ui')

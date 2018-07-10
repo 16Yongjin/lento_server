@@ -22,8 +22,22 @@ export default {
     try {
       const type = ctx.params.type
       ctx.body = await Food.readType(type)
-    } catch (e) {
-      console.log('[Error] GET /public/type/:type', e)
+    } catch (error) {
+      console.log('[Error] GET /public/type/:type', error)
+      ctx.status = 500
+      ctx.body = { error }
+    }
+  },
+  async paginagteType (ctx: any) {
+    // GET /public/type/:type/:page
+    try {
+      const type = ctx.params.type
+      const page = ctx.params.page
+      ctx.body = await Food.paginateType(type, page, 12)
+    } catch (error) {
+      console.log('[Error] GET /public/type/:type', error)
+      ctx.status = 500
+      ctx.body = { error }
     }
   },
   async updateImage (ctx: any) {

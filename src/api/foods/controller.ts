@@ -4,7 +4,7 @@ import { adminGuard, saveImages, deleteImageFile, getId } from 'helpers'
 const controller = {
   async readAll (ctx: any) {
     // GET /foods/
-    ctx.body = await Food.read()
+    ctx.body = await Food.readAll()
   },
   async read (ctx: any) {
     // GET /foods/:id
